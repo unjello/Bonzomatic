@@ -11,6 +11,7 @@
 #include "UniConversion.h"
 #include "jsonxx.h"
 #include "Capture.h"
+#include "argh.h"
 
 void ReplaceTokens( std::string &sDefShader, const char * sTokenBegin, const char * sTokenName, const char * sTokenEnd, std::vector<std::string> &tokens )
 {
@@ -43,10 +44,19 @@ void ReplaceTokens( std::string &sDefShader, const char * sTokenBegin, const cha
 
 int main(int argc, const char *argv[])
 {
+  argh::parser cmdl(argv);
+
+  if (cmdl[{ "-h", "--help" }])
+  {
+      std::cout << "Usage: " << cmdl(0).str() << " [CONFIG]\n";
+      std::cout << "Bonzomatic, unj fork. Have your poison, have a shader.\n\n";
+      exit(0);
+  }
+
   Misc::PlatformStartup();
 
   jsonxx::Object options;
-  FILE * fConf = fopen( (argc > 1) ? argv[1] : "config.json","rb");
+  FILE * fConf = fopen(cmdl(1, "config.json").str().c_str(), "rb");
   if (fConf)
   {
     printf("Config file found, parsing...\n");

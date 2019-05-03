@@ -150,6 +150,12 @@ set(BZC_PROJECT_INCLUDES ${BZC_PROJECT_INCLUDES} ${CMAKE_SOURCE_DIR}/external/js
 set(BZC_PROJECT_LIBS ${BZC_PROJECT_LIBS} bzc_jsonxx)
 
 ##############################################################################
+# ARGH
+add_library(bzc_argh INTERFACE)
+target_include_directories(bzc_argh INTERFACE ${CMAKE_SOURCE_DIR}/external/argh)
+set(BZC_PROJECT_INCLUDES ${BZC_PROJECT_INCLUDES} ${CMAKE_SOURCE_DIR}/external/argh)
+
+##############################################################################
 # NDI
 if (WIN32 AND BONZOMATIC_NDI)
   if(DEFINED ENV{NDI_SDK_DIR}) 
