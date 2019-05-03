@@ -44,12 +44,14 @@ void ReplaceTokens( std::string &sDefShader, const char * sTokenBegin, const cha
 
 int main(int argc, const char *argv[])
 {
-  argh::parser cmdl(argv);
+  argh::parser cmdl{argv};
 
   if (cmdl[{ "-h", "--help" }])
   {
       std::cout << "Usage: " << cmdl(0).str() << " [CONFIG]\n";
       std::cout << "Bonzomatic, unj fork. Have your poison, have a shader.\n\n";
+      std::cout << "  -s, --shader=FILE   use FILE instead of default name\n";
+      std::cout << "\n";
       exit(0);
   }
 
@@ -236,7 +238,7 @@ int main(int argc, const char *argv[])
   bool shaderInitSuccessful = false;
   char szShader[65535];
   char szError[4096];
-  FILE * f = fopen(Renderer::defaultShaderFilename,"rb");
+  FILE * f = fopen(cmdl({"s", "shader"}, Renderer::defaultShaderFilename).str().c_str(),"rb");
   if (f)
   {
     printf("Loading last shader...\n");
@@ -496,7 +498,7 @@ int main(int argc, const char *argv[])
     if (newShader)
     {
       // Frame render successful, save shader
-      FILE * f = fopen(Renderer::defaultShaderFilename,"wb");
+      FILE * f = fopen(cmdl({"s", "shader"}, Renderer::defaultShaderFilename).str().c_str(),"wb");
       if (f)
       {
         fwrite( szShader, strlen(szShader), 1, f );
