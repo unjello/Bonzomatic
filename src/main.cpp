@@ -44,7 +44,8 @@ void ReplaceTokens( std::string &sDefShader, const char * sTokenBegin, const cha
 
 int main(int argc, const char *argv[])
 {
-  argh::parser cmdl{argv};
+  argh::parser cmdl;
+  cmdl.parse(argc, argv, argh::parser::PREFER_PARAM_FOR_UNREG_OPTION);
 
   if (cmdl[{ "-h", "--help" }])
   {
